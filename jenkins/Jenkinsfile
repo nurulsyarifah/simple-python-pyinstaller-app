@@ -20,7 +20,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'pip install pytest'
+                sh 'pip install --user pytest'
                 sh 'pytest --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
             }
             post {
@@ -37,8 +37,8 @@ pipeline {
                 }
             }
             steps {
-                sh 'pip install --upgrade pip'
-                sh 'pip install --no-cache-dir pyinstaller'
+                sh 'pip install --user --upgrade pip'
+                sh 'pip install --user --no-cache-dir pyinstaller'
                 sh 'pyinstaller --onefile sample.py'
                 archiveArtifacts artifacts: 'dist/sample', fingerprint: true
             }
