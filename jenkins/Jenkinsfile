@@ -34,6 +34,8 @@ pipeline {
 
         stage('Deliver') {
             steps {
+                sh 'ls -lah'
+                sh 'ls -lah sources/'
                 sh 'apt update && apt install -y binutils'
                 sh 'export PATH=$HOME/.local/bin:$PATH && pyinstaller --onefile sample.py'
                 archiveArtifacts artifacts: 'dist/sample', fingerprint: true
