@@ -7,9 +7,22 @@ pipeline {
     }
 
     stages {
+        stage('Setup') {
+            steps {
+                sh 'pip install --user --upgrade pip'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'pip install --user --no-cache-dir pyinstaller'
+                sh 'python -m py_compile sources/add2vals.py sources/calc.py'
+            }
+        }
+
         stage('Test') {
             steps {
-                sh 'pip install --user pytest'
+                sh 'pip install --user --no-cache-dir pytest'
                 sh 'export PATH=$HOME/.local/bin:$PATH && pytest --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
             }
             post {
@@ -17,6 +30,25 @@ pipeline {
                     junit 'test-reports/results.xml'
                 }
             }
+        }
+
+        stage('Deliver') {
+            steps {
+                sh 'export PATH=$HOME/.local/bin:$PATH && pyinstaller --onefile sample.py'
+                archiveArtifacts artifacts: 'dist/sample', fingerprint: true
+            }
+        }
+    }
+
+    post {
+        always {
+            echo "Pipeline Execution Finished"
+        }
+        success {
+            echo "Build & Deployment Success!"
+        }
+        failure {
+            echo "Build Failed!"
         }
     }
 }
