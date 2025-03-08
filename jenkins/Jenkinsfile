@@ -41,7 +41,7 @@ pipeline {
                 archiveArtifacts artifacts: 'dist/add2vals', fingerprint: true
 
                 echo "🚀 Running deployed application for 1 minute..."
-                sh 'dist/add2vals & sleep 60 && kill $!' 
+                sh 'dist/add2vals 1 2 & sleep 60 && kill $!' 
             }
         }
     }
