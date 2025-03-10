@@ -48,7 +48,10 @@ pipeline {
                 sh 'apt update && apt install -y openssh-client'
 
                 echo "Deploying executable to AWS EC2..."
-
+              
+                sh '~/.ssh/id_rsa.pub'
+                sh 'ls -lah'
+                sh 'chmod 400 aws.pem'
                 sh '''
                 scp -i aws.pem -r dist/add2vals ubuntu@3.80.80.254:/home/ubuntu/add2vals
                 ssh -i aws.pem ubuntu@3.80.80.254 'chmod +x /home/ubuntu/add2vals'
