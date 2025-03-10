@@ -44,6 +44,9 @@ pipeline {
 
         stage('Deploy') {
             steps {
+                echo "Installing SCP in Container"
+                sh 'apt update && apt install -y openssh-client'
+
                 echo "Deploying executable to AWS EC2..."
 
                 sh '''
