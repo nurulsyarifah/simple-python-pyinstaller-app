@@ -72,7 +72,7 @@ pipeline {
                 echo "Deployment done! Running application for 1 minute..."
 
                 sh '''
-                ssh -o StrictHostKeyChecking=no -i aws.pem ubuntu@3.80.80.254 'nohup /home/ubuntu/add2vals 10 24 > output.log 2>&1 &'
+                ssh -o StrictHostKeyChecking=no -i aws.pem ubuntu@3.80.80.254 '(echo "Start time: $(date)" && nohup /home/ubuntu/add2vals 10 24 >> output.log 2>&1) >> output.log &''
                 sleep 60
                 '''
 
