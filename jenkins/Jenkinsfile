@@ -61,7 +61,6 @@ pipeline {
                 sh '''
                 ssh -o StrictHostKeyChecking=no -i aws.pem ubuntu@3.80.80.254 'nohup /home/ubuntu/add2vals 10 24 > output.log 2>&1 &'
                 sleep 60
-                ssh -o StrictHostKeyChecking=no -i aws.pem ubuntu@3.80.80.254 'pkill -f add2vals'
                 '''
 
                 echo "Application stopped after 1 minute."
