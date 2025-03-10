@@ -47,14 +47,10 @@ pipeline {
                 script {
                     def userInput = input(
                         message: "Lanjutkan ke tahap Deploy?",
-                        parameters: [
-                            choice(name: 'Decision', choices: ['Proceed', 'Abort'], description: 'Pilih apakah ingin melanjutkan Deploy atau tidak')
-                        ]
+                        ok: "Lanjutkan"
                     )
 
-                    if (userInput == 'Abort') {
-                        error("Deployment dibatalkan oleh user!")
-                    }
+                    echo "User memilih untuk melanjutkan ke tahap Deploy!"
                 }
             }
         }
