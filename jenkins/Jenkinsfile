@@ -77,6 +77,10 @@ pipeline {
                 '''
 
                 echo "Application stopped after 1 minute."
+
+                echo "Check output.log"
+
+                sh 'cat ~/output.log'
             }
         }
     }
