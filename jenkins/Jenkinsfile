@@ -49,7 +49,6 @@ pipeline {
 
                 echo "Deploying executable to AWS EC2..."
               
-                sh '~/.ssh/id_rsa.pub'
                 sh 'ls -lah'
                 sh 'chmod 400 aws.pem'
                 sh '''
