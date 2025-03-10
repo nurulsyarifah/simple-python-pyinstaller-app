@@ -39,29 +39,9 @@ pipeline {
                 sh 'apt update && apt install -y binutils'
                 sh 'export PATH=$HOME/.local/bin:$PATH && pyinstaller --onefile sources/add2vals.py'
                 archiveArtifacts artifacts: 'dist/add2vals', fingerprint: true
-            }
-        }
-    }
 
-        stage('Deploy') {
-            steps {
-                echo "Deploying executable to AWS EC2..."
-                
-                sh '''
-                scp -r dist/add2vals ubuntu@3.80.80.254:/home/ubuntu/add2vals
-                ssh ubuntu@3.80.80.254 'chmod +x /home/ubuntu/add2vals'
-                '''
-
-                echo "✅ Deployment done! Running application for 1 minute..."
-                
-                // Menjalankan aplikasi di EC2 dan menunggu 1 menit sebelum mati
-                sh '''
-                ssh ubuntu@3.80.80.254 'nohup /home/ubuntu/add2vals 10 24 > output.log 2>&1 &'
-                sleep 60
-                ssh ubuntu@3.80.80.254 'pkill -f add2vals'
-                '''
-
-                echo "Application stopped after 1 minute."
+                echo "🚀 Running deployed application for 1 minute..."
+                sh 'dist/add2vals 1 2 & sleep 60 && kill $!' 
             }
         }
     }
@@ -77,3 +57,4 @@ pipeline {
             echo "Build Failed!"
         }
     }
+}
