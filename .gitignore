@@ -98,3 +98,6 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+#ssh key
+aws.pem
