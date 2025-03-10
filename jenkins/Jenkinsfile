@@ -80,9 +80,11 @@ pipeline {
 
                 echo "Application stopped after 1 minute."
 
-                echo "Check output.log"
+                sh '''
+                echo "Check output log:"
+                ssh -o StrictHostKeyChecking=no -i aws.pem ubuntu@3.80.80.254 'cat /home/ubuntu/output.log'
+                '''
 
-                sh 'cat /home/ubuntu/output.log'
             }
         }
     }
