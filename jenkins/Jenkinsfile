@@ -82,7 +82,7 @@ pipeline {
 
                 echo "Check output.log"
 
-                sh 'cat ~/output.log'
+                sh 'cat /home/ubuntu/output.log'
             }
         }
     }
