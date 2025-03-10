@@ -59,16 +59,22 @@ pipeline {
             }
         }
 
-        stage('Deploy to AWS EC2') {
+        stage('Deploy') {
             steps {
+                echo "Installing SCP in Container"
+                sh 'apt update && apt install -y openssh-client'
+
                 echo "Deploying executable to AWS EC2..."
 
+                sh 'ls -lah'
+                sh 'chmod 400 aws.pem'
                 sh '''
                 scp -o StrictHostKeyChecking=no -i aws.pem -r dist/add2vals ubuntu@3.80.80.254:/home/ubuntu/add2vals
                 ssh -o StrictHostKeyChecking=no -i aws.pem ubuntu@3.80.80.254 'chmod +x /home/ubuntu/add2vals'
                 '''
 
                 echo "Deployment done! Running application for 1 minute..."
+
                 sh '''
                 ssh -o StrictHostKeyChecking=no -i aws.pem ubuntu@3.80.80.254 'nohup /home/ubuntu/add2vals 10 24 > output.log 2>&1 &'
                 sleep 60
@@ -91,4 +97,3 @@ pipeline {
         }
     }
 }
-
